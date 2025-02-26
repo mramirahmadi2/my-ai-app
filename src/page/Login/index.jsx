@@ -30,10 +30,10 @@ const Login = () => {
       className="min-h-screen flex items-center justify-center bg-cover bg-center px-4"
       style={{ backgroundImage: `url(${backgroundImage})` }} // 📌 تنظیم پس‌زمینه
     >
-      <div className="w-full max-w-md bg-white bg-opacity-90 p-8 rounded-xl shadow-lg text-right">
-        <h2 className="text-2xl font-semibold text-gray-700 mb-6">ورود به حساب کاربری</h2>
+      <div className="w-full max-w-md bg-white bg-opacity-90 p-8 rounded-xl shadow-lg ">
+        <h2 className="text-2xl font-semibold text-gray-700 mb-6 text-center">ورود به حساب کاربری</h2>
 
-        <form onSubmit={formik.handleSubmit} className="space-y-6">
+        <form onSubmit={formik.handleSubmit} className="space-y-6 text-right">
           {/* فیلد نام کاربری */}
           <div>
             <label className="block text-sm font-medium text-gray-700">نام کاربری</label>
