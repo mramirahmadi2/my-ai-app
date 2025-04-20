@@ -1,7 +1,7 @@
 name: my-ai-app
 version: 1.0.0
 description: A simple frontend application for a medical assistant.
-author: Your Name
+author: mramirahmadi2
 license: MIT
 dependencies:
   - react
