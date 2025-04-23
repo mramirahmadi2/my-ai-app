@@ -1,9 +1,13 @@
 import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import backgroundImage from "../../assets/login/img2.webp"; // 📌 مسیر تصویر
 
-const Login = () => {
+const Login = ({ setIsAuthenticated }) => {
+  const navigate = useNavigate();
+  
   const validationSchema = Yup.object({
     username: Yup.string()
       .min(3, "نام کاربری حداقل باید ۳ کاراکتر باشد")
@@ -19,9 +23,16 @@ const Login = () => {
       password: "",
     },
     validationSchema,
-    onSubmit: (values) => {
-      console.log("ورودی‌های فرم:", values);
-      alert("ورود با موفقیت انجام شد!");
+    onSubmit: async (values) => {
+      try {
+        const response = await axios.post('http://localhost:3000/auth/login', values);
+        console.log('Login successful:', response.data);
+        setIsAuthenticated(true);
+        navigate('/');
+      } catch (error) {
+        console.error('Login failed:', error);
+        alert("خطا در ورود به سیستم. لطفا دوباره تلاش کنید.");
+      }
     },
   });
 

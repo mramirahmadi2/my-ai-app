@@ -1,6 +1,7 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import LoginPage from "../page/Login";
 // import Dashboard from "../pages/Dashboard";
+import Home from "../page/Home";
 import { useState } from "react";
 
 // کامپوننتی برای محافظت از مسیرهای خصوصی
@@ -17,7 +18,7 @@ const AppRoutes = () => {
       <Route path="/login" element={<LoginPage setIsAuthenticated={setIsAuthenticated} />} />
 
       {/* مسیر محافظت شده برای داشبورد */}
-      {/* <Route path="/dashboard" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={<Dashboard />} />} /> */}
+      <Route path="/" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={<Home />} />} />
 
       {/* هدایت همه مسیرهای ناشناخته به صفحه لاگین */}
       <Route path="*" element={<Navigate to="/login" />} />
