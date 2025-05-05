@@ -1,29 +1,66 @@
 import { Routes, Route, Navigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import LoginPage from "../page/Login";
-// import Dashboard from "../pages/Dashboard";
 import Home from "../page/Home";
-import { useState } from "react";
+import Layout from "../Layout";
+import PrivateChat from "../page/PrivateChat";
+import MedicineForm from "../page/MedicineForm/MedicineForm.jsx";
 
-// کامپوننتی برای محافظت از مسیرهای خصوصی
-const ProtectedRoute = ({ element, isAuthenticated }) => {
-  return isAuthenticated ? element : <Navigate to="/login" />;
+const ProtectedRoute = ({ children, isAuthenticated }) => {
+    return isAuthenticated ? children : <Navigate to="/login" />;
 };
 
 const AppRoutes = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+    const [isAuthenticated, setIsAuthenticated] = useState(() => {
+        return localStorage.getItem("isAuthenticated") === "true";
+    });
 
-  return (
-    <Routes>
-      {/* صفحه لاگین */}
-      <Route path="/login" element={<LoginPage setIsAuthenticated={setIsAuthenticated} />} />
+    // Update localStorage whenever auth changes
+    useEffect(() => {
+        localStorage.setItem("isAuthenticated", isAuthenticated);
+    }, [isAuthenticated]);
 
-      {/* مسیر محافظت شده برای داشبورد */}
-      <Route path="/" element={<ProtectedRoute isAuthenticated={isAuthenticated} element={<Home />} />} />
+    return (
+        <Routes>
+            <Route
+                path="/login"
+                element={<LoginPage setIsAuthenticated={setIsAuthenticated} />}
+            />
 
-      {/* هدایت همه مسیرهای ناشناخته به صفحه لاگین */}
-      <Route path="*" element={<Navigate to="/login" />} />
-    </Routes>
-  );
+            <Route
+                path="/"
+                element={
+                    <ProtectedRoute isAuthenticated={isAuthenticated}>
+                        <Layout>
+                            <Home />
+                        </Layout>
+                    </ProtectedRoute>
+                }
+            />
+
+            <Route
+                path="/new-chat"
+                element={
+                    <ProtectedRoute isAuthenticated={isAuthenticated}>
+                        <Layout>
+                            <PrivateChat />
+                        </Layout>
+                    </ProtectedRoute>
+                }
+            />
+            <Route
+                path="/medicine-form"
+                element={
+                    <ProtectedRoute isAuthenticated={isAuthenticated}>
+                        <Layout>
+                            <MedicineForm />
+                        </Layout>
+                    </ProtectedRoute>
+                }
+            />
+            <Route path="*" element={<Navigate to="/login" />} />
+        </Routes>
+    );
 };
 
 export default AppRoutes;
